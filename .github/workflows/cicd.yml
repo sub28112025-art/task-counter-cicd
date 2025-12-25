@@ -1,5 +1,3 @@
-# Recreate the file from scratch to eliminate any hidden characters
-cat > .github/workflows/cicd.yml << 'EOFWORKFLOW'
 name: CI/CD Pipeline
 
 on:
@@ -103,8 +101,8 @@ jobs:
 
       - name: Display website URL
         run: |
-          echo "✅ DEV deployment successful!"
-          echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
+          echo "DEV deployment successful"
+          echo "Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
 
   deploy-sit:
     name: Deploy to SIT
@@ -169,8 +167,8 @@ jobs:
 
       - name: Display website URL
         run: |
-          echo "✅ SIT deployment successful!"
-          echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
+          echo "SIT deployment successful"
+          echo "Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
 
   deploy-prod:
     name: Deploy to PROD
@@ -235,6 +233,5 @@ jobs:
 
       - name: Display website URL
         run: |
-          echo "✅ PROD deployment successful!"
-          echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
-EOFWORKFLOW
+          echo "PROD deployment successful"
+          echo "Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
