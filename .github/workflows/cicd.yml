@@ -56,10 +56,10 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-      - name: Terraform Init
+  -    name: Terraform Init
         run: |
           cd terraform
-          terraform init
+          terraform init -backend-config=environments/dev/backend.hcl
 
       - name: Terraform Plan DEV
         run: |
@@ -131,7 +131,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd terraform
-          terraform init
+          terraform init -backend-config=environments/sit/backend.hcl
 
       - name: Terraform Apply SIT
         run: |
@@ -198,7 +198,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd terraform
-          terraform init
+          terraform init -backend-config=environments/prod/backend.hcl
 
       - name: Terraform Apply PROD
         run: |
