@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <h1>Task Counter v2.0 - CI/CD Demo</h1>
+    <title>Task Counter - CI/CD Demo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,6 +46,8 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
         }
         button:hover {
             background: #5568d3;
@@ -53,6 +55,12 @@
         button:disabled {
             background: #ccc;
             cursor: not-allowed;
+        }
+        #resetBtn {
+            background: #e74c3c;
+        }
+        #resetBtn:hover {
+            background: #c0392b;
         }
         .error {
             color: red;
@@ -62,16 +70,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Task Counter</h1>
+        <h1>Task Counter v2.0 - CI/CD Demo</h1>
         <div class="environment" id="environment">Environment: Loading...</div>
         <div class="counter" id="counter">--</div>
         <button id="incrementBtn" onclick="incrementCounter()">Increment Counter</button>
+        <button id="resetBtn" onclick="resetCounter()">Reset Counter</button>
         <div class="error" id="error"></div>
     </div>
 
     <script>
         // Replace this with your API Gateway URL after deployment
-     const API_URL = 'https://zw2r3g6m85.execute-api.us-east-1.amazonaws.com/dev/counter';
+        const API_URL = 'YOUR_API_GATEWAY_URL_HERE';
 
         async function loadCounter() {
             try {
@@ -100,6 +109,24 @@
                 document.getElementById('error').textContent = '';
             } catch (error) {
                 document.getElementById('error').textContent = 'Error incrementing counter: ' + error.message;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function resetCounter() {
+            const btn = document.getElementById('resetBtn');
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                document.getElementById('counter').textContent = data.count;
+                document.getElementById('error').textContent = '';
+            } catch (error) {
+                document.getElementById('error').textContent = 'Error resetting counter: ' + error.message;
             } finally {
                 btn.disabled = false;
             }
