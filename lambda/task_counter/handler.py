@@ -49,7 +49,24 @@ def lambda_handler(event, context):
                     'message': 'Counter incremented'
                 })
             }
-        
+        elif http_method == 'DELETE':
+            # Reset counter to zero
+            response = table.put_item(
+                Item={'id': 'counter', 'count': 0}
+            )
+            
+            return {
+                'statusCode': 200,
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                'body': json.dumps({
+                    'count': 0,
+                    'environment': os.environ.get('ENVIRONMENT', 'unknown'),
+                    'message': 'Counter reset to zero'
+                })
+            }
         else:
             return {
                 'statusCode': 405,
