@@ -1,3 +1,5 @@
+# Recreate the file from scratch to eliminate any hidden characters
+cat > .github/workflows/cicd.yml << 'EOFWORKFLOW'
 name: CI/CD Pipeline
 
 on:
@@ -11,7 +13,6 @@ env:
   TERRAFORM_VERSION: 1.6.0
 
 jobs:
-  # Job 1: Run tests
   test:
     name: Run Tests
     runs-on: ubuntu-latest
@@ -34,7 +35,6 @@ jobs:
         run: |
           python -m py_compile lambda/task_counter/handler.py
 
-  # Job 2: Deploy to DEV
   deploy-dev:
     name: Deploy to DEV
     runs-on: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
-  -    name: Terraform Init
+      - name: Terraform Init
         run: |
           cd terraform
           terraform init -backend-config=environments/dev/backend.hcl
@@ -106,7 +106,6 @@ jobs:
           echo "✅ DEV deployment successful!"
           echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
 
-  # Job 3: Deploy to SIT
   deploy-sit:
     name: Deploy to SIT
     runs-on: ubuntu-latest
@@ -173,7 +172,6 @@ jobs:
           echo "✅ SIT deployment successful!"
           echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
 
-  # Job 4: Deploy to PROD
   deploy-prod:
     name: Deploy to PROD
     runs-on: ubuntu-latest
@@ -239,3 +237,4 @@ jobs:
         run: |
           echo "✅ PROD deployment successful!"
           echo "🌐 Website URL: http://${{ steps.tf-outputs.outputs.website_url }}"
+EOFWORKFLOW
